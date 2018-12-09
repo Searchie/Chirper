@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+img {
+  height: 50px;
+  width: 50px;
+  /* margin-bottom: 5px; */
+}
+
+.chirp {
+  /* padding: 15px 15px; */
+  margin-top: 5px;
+  border-radius: 5px;
+  max-width: 45vw;
+  max-height: 25vh;
+  overflow: hidden;
+}
+
+textarea {
+  border-radius: 5px;
+  border: darkgrey solid 1.5px;
+}
+
+#edit {
+  height: 25;
+  width: 45px;
+  align-self: flex-end;
+}
+
+#editContainer {
+  height: 100vh;
+}
+
+#editableChirp{
+  min-width: 50%;
+  min-height: 35%;
+}
+
+#user {
+  height: 100%; 
+}
