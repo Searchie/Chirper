@@ -6,6 +6,7 @@ import Edit from './Pages/edit';
 import PrivateRoute from './components/auth/privateRoute';
 import login from './components/auth/login';
 import logout from './components/auth/logout';
+import Donate from './components/Donate';
 
 ReactDOM.render(
   <React.Fragment>
@@ -13,6 +14,7 @@ ReactDOM.render(
       <Switch>
           <Route exact path="/" component={App} />
           <Route path="/login" component={login} />
+          <Route path="/donate" component={Donate} />
           <PrivateRoute path="/logout" component={logout} />
           <PrivateRoute exact path="/:id/edit" component={Edit} />
       </Switch>
