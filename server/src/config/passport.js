@@ -3,6 +3,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as BearerStrategy } from "passport-http-bearer";
 import search from "./db";
 import { encode, decode } from "../utils/tokens";
+import { checkPassword } from "../utils/hashing";
 
 function configurePassport(app) {
   passport.use(
@@ -13,13 +14,27 @@ function configurePassport(app) {
         sessions: false
       },
       (email, password, done) => {
-        search(`SELECT id, password FROM Users WHERE email = '${email}';`)
+        search(`SELECT id, hash FROM Users WHERE email = '${email}';`)
           .then(res => res[0])
           .then(user => {
-            if (user && user.password && user.password === password) {
-              search(`INSERT INTO Tokens (userId) VALUES (${user.id})`)
-                .then(id => encode(id))
-                .then(tok => done(null, { token: tok }));
+            console.log(user.hash);
+            if (user && user.hash) {
+              checkPassword(password, user.hash)
+                .then(matches => {
+                  if (matches) {
+                    console.log("it matches");
+                    search(`INSERT INTO Tokens (userId) VALUES (${user.id})`)
+                      .then(id => encode(id))
+                      .then(tok => done(null, { token: tok }));
+                  } else {
+                    return done(null, false, {
+                      message: "Invalid Login attaemnpt"
+                    });
+                  }
+                })
+                .catch(err => {
+                  throw err;
+                });
             } else {
               return done(null, false, { message: "Invalid Login" });
             }
@@ -31,10 +46,7 @@ function configurePassport(app) {
 
   passport.use(
     new BearerStrategy((token, done) => {
-      console.log(token);
       let tokenId = decode(token);
-      console.log(decode(token));
-
 
       if (!tokenId) {
         return done(null, false, { message: "Invalid token" });
