@@ -11,6 +11,9 @@ const NavigationBar = () => {
         <Link to="/donate" className="btn btn-warning">
           Donate
         </Link>
+        <Link to="/contact" className="btn btn-dark">
+          Contact Us
+        </Link>
       </div>
     </div>
   );
