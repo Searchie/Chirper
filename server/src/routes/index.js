@@ -4,11 +4,14 @@ import authRouter from './auth';
 import { isLoggedIn, tokenMiddleware } from '../middleware/auth.mw';
 import userRouter from './users';
 import stripeDonationsRouter from './stripeDonations';
+import contactFormRotuer from '../routes/contactForm';
 
 let router = Router();
 
 router.use('/auth', authRouter);
 router.use('/donate', stripeDonationsRouter);
+router.use('/contact', contactFormRotuer);
+
 
 router.use(tokenMiddleware);
 // router.use(isLoggedIn);
